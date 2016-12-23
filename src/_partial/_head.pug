@@ -1,0 +1,24 @@
+head(prefix='og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# mixi: http://mixi-platform.com/ns#')
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='viewport', content='width=device-width,initial-scale=1.0')
+
+  meta(name='description', content=DESCRIPTION)
+  meta(name='format-detection', content='telephone=no,address=no,email=no')
+
+  //-================ SNS ================-//
+  //- facebook
+  include ./_head_meta_facebook
+
+  //- twitter
+  include ./_head_meta_twitter
+
+  //-================ FAVICON ================-//
+  link(rel='icon', href = '/favicon.ico')
+
+  //-================ STYLE ================-//
+  link(rel='stylesheet', href='css/style.css')
+  block style
+
+  //-================ TITLE ================-//
+  title= TITLE

@@ -1,0 +1,32 @@
+//- ------------------------------------
+//- include local variables
+//-
+block variables
+
+//- ------------------------------------
+//- HTML CONTENTS
+//-
+doctype html
+html(lang="ja")
+
+  //- ------------------------------------
+  //- include head element
+  //-
+  include /_partial/_head
+
+  //- ------------------------------------
+  //- begin body
+  //-
+  body(id=domain.replace('.', '-'))
+    div= domain
+    .main
+      //- include global header
+      include /_partial/_header
+      .content
+        //- put content
+        block content
+      //- include global footer
+      include /_partial/_footer
+
+    //-================ SCRIPT ================-//
+    block scripts

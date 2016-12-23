@@ -1,0 +1,32 @@
+{
+  "name": "template-single-page",
+  "version": "1.0.0",
+  "description": "template for single web page",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:noliaki/template-single-page.git",
+    "type": "git"
+  },
+  "author": "noliaki <noliaki.mobile@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build:dev": "run-s clean mkdir start:dev",
+    "clean": "rm -fr ./dist",
+    "mkdir": "mkdir dist && mkdir dist/css",
+    "start:dev": "run-p dev:*",
+    "dev:server": "browser-sync start --server ./dist --file ./dist",
+    "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css",
+    "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js"
+  },
+  "dependencies": {
+    "autoprefixer-stylus": "^0.11.0",
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.18.0",
+    "browser-sync": "^2.18.5",
+    "npm-run-all": "^3.1.2",
+    "pug-cli": "^1.0.0-alpha6",
+    "stylus": "^0.54.5",
+    "webpack": "^1.14.0"
+  }
+}
