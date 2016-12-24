@@ -15,7 +15,7 @@
     "mkdir": "mkdir dist && mkdir dist/css",
     "start:dev": "run-p dev:*",
     "dev:server": "browser-sync start --server ./dist --file ./dist",
-    "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css",
+    "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
     "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "browser-sync": "^2.18.5",
+    "imagemin-cli": "^3.0.0",
     "npm-run-all": "^3.1.2",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.5",
