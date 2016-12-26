@@ -16,7 +16,8 @@
     "start:dev": "run-p dev:*",
     "dev:server": "browser-sync start --server ./dist --file ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
-    "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js"
+    "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js",
+    "dev:webpack": "webpack --config ./webpack.config.dev.js"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.11.0",
