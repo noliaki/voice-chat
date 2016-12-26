@@ -11,8 +11,13 @@
   "license": "MIT",
   "scripts": {
     "build:dev": "run-s clean mkdir start:dev",
+    "build:production": "run-s clean mkdir start:production",
     "clean": "rm -fr ./dist",
     "mkdir": "mkdir dist && mkdir dist/css",
+    "start:production": "run-s production:*",
+    "production:stylus": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./dist/css --compress",
+    "production:pug": "pug ./src/index.pug --basedir ./src/ --out ./dist/ --obj ./page-data.js",
+    "production:webpack": "webpack --config ./webpack.config.js",
     "start:dev": "run-p dev:*",
     "dev:server": "browser-sync start --server ./dist --file ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
