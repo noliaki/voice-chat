@@ -19,7 +19,7 @@
     "production:pug": "pug ./src/index.pug --basedir ./src/ --out ./dist/ --obj ./page-data.js",
     "production:webpack": "webpack --config ./webpack.config.js",
     "start:dev": "run-p dev:*",
-    "dev:server": "browser-sync start --server ./dist --file ./dist",
+    "dev:server": "browser-sync start --server ./dist --files ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
     "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js",
     "dev:webpack": "webpack --config ./webpack.config.dev.js"
