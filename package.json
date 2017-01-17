@@ -22,7 +22,8 @@
     "dev:server": "browser-sync start --server ./dist --files ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
     "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js",
-    "dev:webpack": "webpack --config ./webpack.config.dev.js"
+    "dev:webpack": "webpack --config ./webpack.config.dev.js",
+    "imagemin": "imagemin ./src/img/**/* --out-dir ./dist --use-folder-structure"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.11.0",
@@ -30,7 +31,10 @@
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "browser-sync": "^2.18.5",
+    "imagemin": "silviopaganini/imagemin",
     "imagemin-cli": "^3.0.0",
+    "imagemin-mozjpeg": "^6.0.0",
+    "imagemin-pngquant": "^5.0.0",
     "npm-run-all": "^3.1.2",
     "pug-cli": "^1.0.0-alpha6",
     "stylus": "^0.54.5",
