@@ -10,6 +10,10 @@ const distPath = path.resolve('./dist/')
 fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
   console.log(filename)
 
+  if( !/(\.(jpg|png|gif))$/.test(filename) ) {
+    return
+  }
+
   imagemin([path.resolve(srcPath, filename)], path.resolve(distPath, path.dirname(filename)), {
     plugins: [
       imageminMozjpeg(),
