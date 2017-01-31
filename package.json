@@ -10,20 +10,21 @@
   "author": "noliaki <noliaki.mobile@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build:dev": "run-s clean mkdir start:dev",
-    "build:production": "run-s clean mkdir start:production",
+    "build:dev": "run-s clean mkdir imagemin start:dev",
+    "build:production": "run-s clean mkdir start:production imagemin",
     "clean": "rm -fr ./dist",
     "mkdir": "mkdir -p dist/css",
     "start:production": "run-s production:*",
     "production:stylus": "stylus -u autoprefixer-stylus ./src/css/style.styl -o ./dist/css --compress",
     "production:pug": "pug ./src/index.pug --basedir ./src/ --out ./dist/ --obj ./page-data.js",
     "production:webpack": "webpack --config ./webpack.config.js",
-    "start:dev": "run-p dev:*",
+    "start:dev": "run-p dev:* watch:imagemin ",
     "dev:server": "browser-sync start --server ./dist --files ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
     "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js",
     "dev:webpack": "webpack --config ./webpack.config.dev.js",
-    "imagemin": "imagemin ./src/img/**/* --out-dir ./dist --use-folder-structure"
+    "watch:imagemin": "node ./watch.js",
+    "imagemin": "node ./imagemin.js"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.11.0",
