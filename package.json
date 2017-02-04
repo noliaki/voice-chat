@@ -21,7 +21,7 @@
     "start:dev": "run-p dev:* watch:imagemin ",
     "dev:server": "browser-sync start --server ./dist --files ./dist",
     "dev:stylus": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./dist/css --compress",
-    "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/index.pug --obj ./page-data.js",
+    "dev:pug": "pug --pretty --basedir ./src/ --out ./dist/ --watch ./src/ --obj ./page-data.js",
     "dev:webpack": "webpack --config ./webpack.config.dev.js",
     "watch:imagemin": "node ./watch.js",
     "imagemin": "node ./imagemin.js"
