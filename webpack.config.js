@@ -10,19 +10,17 @@ module.exports = {
     path: path.resolve('./dist', 'js'),
     filename: '[name].js'
   },
-  resolve: {
-    modulesDirectories: ['node_modules'],
-    extensions: ['', '.js']
-  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel',
         exclude: /node_modules/,
-        query: {
-          presets: ['es2015']
-        }
+        use:[{
+          loader: 'babel-loader',
+          query: {
+            presets: ['es2015']
+          }
+        }]
       }
     ]
   },
