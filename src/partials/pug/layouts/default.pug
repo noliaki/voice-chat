@@ -14,7 +14,7 @@ html(lang="ja")
   //- ------------------------------------
   //- include head element
   //-
-  include /partials/head
+  include /head/index
 
   //- ------------------------------------
   //- begin body
@@ -23,12 +23,12 @@ html(lang="ja")
     div
     .main
       //- include global header
-      include /partials/header
+      include /global-header/index
       .content
         //- put content
         block content
       //- include global footer
-      include /partials/footer
+      include /global-footer/index
 
     //-================ SCRIPT ================-//
     block scripts
