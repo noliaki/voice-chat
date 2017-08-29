@@ -7,7 +7,7 @@ const fs = require('fs')
 const srcPath = require('./config').src
 const distPath = require('./config').dist
 
-const images = glob.sync(`${srcPath}/**/*.{jpg.jpeg,gif,png,svg}`, {
+const images = glob.sync(`${srcPath}/**/*.{jpg,jpeg,gif,png,svg}`, {
   nocase: true
 })
 const promises = []
