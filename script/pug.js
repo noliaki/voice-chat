@@ -1,7 +1,7 @@
 const pug = require('pug')
 const glob = require('glob')
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 const url = require('url')
 
 const docRoot = require('./config').docroot
@@ -60,15 +60,15 @@ if (process.env.NODE_ENV === 'production') {
 // middleware for browsersync
 module.exports = async (req, res, next) => {
   const requestPath = url.parse(req.url).pathname
+  const filePath = path.join(docRoot, requestPath.replace(/\.html$/, '.pug'))
 
-  if (!(/\.html$/.test(requestPath))) {
+  if (!fs.pathExistsSync(filePath) || !(/\.html$/.test(requestPath))) {
     next()
     return
   }
 
   console.log(`pug compile: ${requestPath}`)
 
-  const filePath = path.join(docRoot, requestPath.replace(/\.html$/, '.pug'))
   const html = await compile(filePath)
 
   res.writeHead(200, {'Content-Type': 'text/html'})

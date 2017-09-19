@@ -70,15 +70,15 @@ if (process.env.NODE_ENV === 'production') {
 // middleware for browsersync
 module.exports = async (req, res, next) => {
   const requestPath = url.parse(req.url).pathname
+  const filePath = path.join(docRoot, requestPath.replace(/\.css$/, '.styl'))
 
-  if (!(/\.css$/.test(requestPath))) {
+  if (!fs.pathExistsSync(filePath) || !(/\.css$/.test(requestPath))) {
     next()
     return
   }
 
   console.log(`stylus compile: ${requestPath}`)
 
-  const filePath = path.join(docRoot, requestPath.replace(/\.css$/, '.styl'))
   const css = await compile(filePath)
 
   res.writeHead(200, {'Content-Type': 'text/css'})

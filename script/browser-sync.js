@@ -48,9 +48,8 @@ fs.watch(src, { recursive: true }, async (event, filename) => {
   }
 
   const absolutePath = path.resolve(src, filename)
-  const valid = await validFile(absolutePath)
 
-  if (!valid) {
+  if (!fs.pathExistsSync(absolutePath)) {
     console.log('invalid')
     return
   }
@@ -69,29 +68,6 @@ fs.watch(src, { recursive: true }, async (event, filename) => {
 
   copyFile.copy(absolutePath)
 })
-
-function validFile (filename) {
-  return new Promise((resolve, reject) => {
-    fs.stat(filename, (error, stats) => {
-      if (error) {
-        if (error.code === 'ENOENT') {
-          console.log(error)
-          resolve(false)
-          return
-        }
-        reject(error)
-        return
-      }
-
-      if (stats.isDirectory()) {
-        resolve(false)
-        return
-      }
-
-      resolve(true)
-    })
-  })
-}
 
 function ignoreFile (filename) {
   return /\.(js|ts)$/.test(filename) || /^modules\//.test(filename) || /\/\./.test(filename)
