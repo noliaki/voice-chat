@@ -39,10 +39,6 @@ function shouldCopy (filename) {
   return !(isPug.test(filename) || isStylus.test(filename) || isImage.test(filename) || isScript.test(filename))
 }
 
-if (process.env.NODE_ENV === 'production') {
-  exec()
-}
-
 module.exports = {
   exec,
   copy

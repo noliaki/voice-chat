@@ -3,6 +3,7 @@ const glob = require('glob')
 const path = require('path')
 const fs = require('fs-extra')
 const url = require('url')
+const HTMLHint = require('htmlhint').HTMLHint
 
 const docRoot = require('./config').docroot
 const src = require('./config').src
@@ -42,6 +43,10 @@ const compile = filename => {
         throw error
       }
 
+      console.log('-----------------------------------')
+      console.log(`////// ${filename} //////`)
+      console.log(HTMLHint.verify(html))
+      console.log('-----------------------------------')
       resolve(html)
     })
   })
@@ -55,12 +60,9 @@ const exec = () => {
   })
 }
 
-if (process.env.NODE_ENV === 'production') {
-  exec()
-}
-
 // middleware for browsersync
 module.exports = {
+  exec,
   regexp,
   middleware: async (req, res, next) => {
     const requestPath = url.parse(req.url).pathname

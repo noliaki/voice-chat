@@ -36,10 +36,6 @@ const exec = () => {
   })
 }
 
-if (process.env.NODE_ENV === 'production') {
-  exec()
-}
-
 module.exports = {
   exec,
   regexp,

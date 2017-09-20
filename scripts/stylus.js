@@ -65,12 +65,9 @@ const exec = () => {
   })
 }
 
-if (process.env.NODE_ENV === 'production') {
-  exec()
-}
-
 // middleware for browsersync
 module.exports = {
+  exec,
   regexp,
   middleware: async (req, res, next) => {
     const requestPath = url.parse(req.url).pathname
