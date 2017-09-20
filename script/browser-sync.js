@@ -2,13 +2,17 @@ const fs = require('fs-extra')
 const path = require('path')
 const glob = require('glob')
 const bs = require('browser-sync').create()
-const pugMiddleware = require('./pug')
-const stylusMiddleware = require('./stylus')
+const pugMiddleware = require('./pug').middleware
+const stylusMiddleware = require('./stylus').middleware
 const imageMin = require('./imagemin')
 const copyFile = require('./cp-files')
 const dist = require('./config').dist
 const src = require('./config').src
 const docRoot = require('./config').docroot
+
+const isPug = require('./pug').regexp
+const isStyl = require('./stylus').regexp
+const isImage = require('./imagemin').regexp
 
 const startPath = () => {
   const files = glob.sync(`${docRoot}/**/*.pug`)
@@ -50,18 +54,18 @@ fs.watch(src, { recursive: true }, async (event, filename) => {
   const absolutePath = path.resolve(src, filename)
 
   if (!fs.pathExistsSync(absolutePath)) {
-    console.log('invalid')
+    console.log('not exist')
     return
   }
 
   // pug or stylus
-  if (/\.(pug|styl)$/.test(filename)) {
+  if (isPug.test(filename) || isStyl.test(filename)) {
     bs.reload()
     return
   }
 
   // image file
-  if (imageMin.isImage.test(filename)) {
+  if (isImage.test(filename)) {
     imageMin.compressImage(absolutePath)
     return
   }
@@ -70,5 +74,5 @@ fs.watch(src, { recursive: true }, async (event, filename) => {
 })
 
 function ignoreFile (filename) {
-  return /\.(js|ts)$/.test(filename) || /^modules\//.test(filename) || /\/\./.test(filename)
+  return /\.ts$/.test(filename) || /\/\./.test(filename)
 }

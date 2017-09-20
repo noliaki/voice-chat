@@ -6,7 +6,7 @@ const imageminSvgo = require('imagemin-svgo')
 const docRoot = require('./config').docroot
 const dist = require('./config').dist
 
-const isImage = /\.(jpe?g|gif|png|svg)$/i
+const regexp = /\.(jpe?g|gif|png|svg)$/i
 
 const compressImage = filename => {
   const distPath = path.resolve(dist, path.relative(docRoot, path.dirname(filename)))
@@ -31,7 +31,7 @@ const exec = () => {
     nodir: true
   })
 
-  files.filter(file => isImage.test(file)).forEach(file => {
+  files.filter(file => regexp.test(file)).forEach(file => {
     compressImage(file)
   })
 }
@@ -42,6 +42,6 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   exec,
-  isImage,
+  regexp,
   compressImage
 }

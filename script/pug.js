@@ -8,6 +8,8 @@ const docRoot = require('./config').docroot
 const src = require('./config').src
 const dist = require('./config').dist
 
+const regexp = /\.pug$/
+
 const defaultOption = {
   basedir: `${src}/modules/pug`,
   pretty: true
@@ -58,20 +60,23 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // middleware for browsersync
-module.exports = async (req, res, next) => {
-  const requestPath = url.parse(req.url).pathname
-  const filePath = path.join(docRoot, requestPath.replace(/\.html$/, '.pug'))
+module.exports = {
+  regexp,
+  middleware: async (req, res, next) => {
+    const requestPath = url.parse(req.url).pathname
+    const filePath = path.join(docRoot, requestPath.replace(/\.html$/, '.pug'))
 
-  if (!fs.pathExistsSync(filePath) || !(/\.html$/.test(requestPath))) {
+    if (!fs.pathExistsSync(filePath) || !(/\.html$/.test(requestPath))) {
+      next()
+      return
+    }
+
+    console.log(`pug compile: ${requestPath}`)
+
+    const html = await compile(filePath)
+
+    res.writeHead(200, {'Content-Type': 'text/html'})
+    res.end(html)
     next()
-    return
   }
-
-  console.log(`pug compile: ${requestPath}`)
-
-  const html = await compile(filePath)
-
-  res.writeHead(200, {'Content-Type': 'text/html'})
-  res.end(html)
-  next()
 }

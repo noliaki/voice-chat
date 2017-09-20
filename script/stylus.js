@@ -9,6 +9,8 @@ const src = require('./config').src
 const dist = require('./config').dist
 const docRoot = require('./config').docroot
 
+const regexp = /\.styl$/
+
 const browsers = [
   'ie >= 6'
 ]
@@ -68,20 +70,23 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // middleware for browsersync
-module.exports = async (req, res, next) => {
-  const requestPath = url.parse(req.url).pathname
-  const filePath = path.join(docRoot, requestPath.replace(/\.css$/, '.styl'))
+module.exports = {
+  regexp,
+  middleware: async (req, res, next) => {
+    const requestPath = url.parse(req.url).pathname
+    const filePath = path.join(docRoot, requestPath.replace(/\.css$/, '.styl'))
 
-  if (!fs.pathExistsSync(filePath) || !(/\.css$/.test(requestPath))) {
+    if (!(/\.css$/.test(requestPath)) || !fs.pathExistsSync(filePath)) {
+      next()
+      return
+    }
+
+    console.log(`stylus compile: ${requestPath}`)
+
+    const css = await compile(filePath)
+
+    res.writeHead(200, {'Content-Type': 'text/css'})
+    res.end(css)
     next()
-    return
   }
-
-  console.log(`stylus compile: ${requestPath}`)
-
-  const css = await compile(filePath)
-
-  res.writeHead(200, {'Content-Type': 'text/css'})
-  res.end(css)
-  next()
 }

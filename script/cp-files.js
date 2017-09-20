@@ -4,17 +4,20 @@ const glob = require('glob')
 const docRoot = require('./config').docroot
 const distPath = require('./config').dist
 
-const isNotTarget = /\.(pug|styl|jpg|jpeg|gif|png|svg|js|ts)$/i
+const isPug = require('./pug').regexp
+const isStylus = require('./stylus').regexp
+const isImage = require('./imagemin').regexp
+const isScript = /\.ts$/
 
 const copy = filename => {
-  if (isNotTarget.test(filename)) {
+  if (!shouldCopy(filename)) {
     return
   }
 
   const distFile = path.resolve(distPath, path.relative(docRoot, filename))
 
   fs.ensureDirSync(path.dirname(distFile))
-  fs.copy(filename, distFile, error => {
+  fs.copyFile(filename, distFile, error => {
     if (error) throw error
 
     console.log(`copy done: ${distFile}`)
@@ -25,11 +28,15 @@ const exec = () => {
   const files = glob.sync(`${docRoot}/**/*`, {
     nocase: true,
     nodir: true
-  }).filter(file => !isNotTarget.test(file))
+  }).filter(file => shouldCopy(file))
 
   files.forEach(file => {
     copy(file)
   })
+}
+
+function shouldCopy (filename) {
+  return !(isPug.test(filename) || isStylus.test(filename) || isImage.test(filename) || isScript.test(filename))
 }
 
 if (process.env.NODE_ENV === 'production') {
