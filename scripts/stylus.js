@@ -32,7 +32,7 @@ const compile = filename => {
       .use(autoprefixer({
         browsers
       }))
-      .set('compress', true)
+      .set('compress', process.env.NODE_ENV === 'production')
       .render((error, output) => {
         if (error) {
           reject(error)

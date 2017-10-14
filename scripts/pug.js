@@ -13,7 +13,7 @@ const regexp = /\.pug$/
 
 const defaultOption = {
   basedir: `${src}/modules/pug`,
-  pretty: true
+  pretty: process.env.NODE_ENV !== 'production'
 }
 
 const renderPug = async filename => {
