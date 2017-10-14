@@ -1,4 +1,6 @@
 const webpack = require('webpack')
+const path = require('path')
+const glob = require('glob')
 const plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
@@ -8,11 +10,20 @@ const docRoot = require('./config').docroot
 const distDir = require('./config').dist
 const srcDir = require('./config').src
 
+function entries () {
+  const files = glob.sync(`${docRoot}/**/*.ts`)
+  const entriesObj = {}
+  files.forEach(file => {
+    const filePath = `./${path.relative(docRoot, file)}`
+    entriesObj[filePath.replace(/\/ts\//gm, '/js/').replace(/\.ts$/, '')] = filePath
+  })
+
+  return entriesObj
+}
+
 const config = {
   context: docRoot,
-  entry: {
-    './js/index': './ts/index.ts'
-  },
+  entry: entries(),
   output: {
     path: distDir,
     filename: '[name].js'

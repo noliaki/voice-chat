@@ -39,7 +39,9 @@ bs.init({
     pugMiddleware,
     stylusMiddleware
   ],
-  reloadDebounce: 500
+  reloadDebounce: 500,
+  ui: false,
+  open: false
 })
 
 fs.watch(src, { recursive: true }, async (event, filename) => {
@@ -60,6 +62,7 @@ fs.watch(src, { recursive: true }, async (event, filename) => {
 
   // pug or stylus
   if (isPug.test(filename) || isStyl.test(filename)) {
+    console.log(path.relative(docRoot, filename))
     bs.reload()
     return
   }
