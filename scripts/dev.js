@@ -39,7 +39,7 @@ bs.init({
   open: false
 })
 
-fs.watch(paths.src, { recursive: true }, async (event, filename) => {
+fs.watch(paths.src, { recursive: true }, (event, filename) => {
   console.log(event, filename)
 
   // ignore

@@ -1,9 +1,3 @@
-const anchor: NodeList = document.querySelectorAll('a')
-
-Array.prototype.slice.call(anchor).forEach(a => {
-  a.addEventListener('click', onClick, false)
-})
-
 function onClick (event) {
   event.preventDefault()
 
