@@ -62,6 +62,10 @@ fs.watch(paths.src, { recursive: true }, (event, filename) => {
     return
   }
 
+  if (/^\/?modules\//.test(filename)) {
+    return
+  }
+
   // image file
   if (util.isImage.test(filename)) {
     imageMin.compressImage(absolutePath)
