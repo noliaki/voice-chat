@@ -55,10 +55,17 @@ fs.watch(paths.src, { recursive: true }, (event, filename) => {
     return
   }
 
-  // pug or stylus
-  if (util.isPug.test(filename) || util.isStylus.test(filename)) {
+  // pug
+  if (util.isPug.test(filename)) {
     console.log(path.relative(paths.docroot, filename))
-    bs.reload()
+    bs.reload('*.html')
+    return
+  }
+
+  // stylus
+  if (util.isStylus.test(filename)) {
+    console.log(path.relative(paths.docroot, filename))
+    bs.reload('*.css')
     return
   }
 
