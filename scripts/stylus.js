@@ -79,6 +79,5 @@ async function middleware (req, res, next) {
 
   res.writeHead(200, {'Content-Type': 'text/css'})
   res.end(css)
-  next()
 }
 exports.middleware = middleware

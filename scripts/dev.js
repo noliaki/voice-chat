@@ -10,7 +10,7 @@ const paths = require('./paths')
 const util = require('./util')
 
 const startPath = () => {
-  const files = glob.sync(`${paths.docroot}/**/*.pug`)
+  const files = glob.sync(`${paths.docroot}/**/*.{pug, html}`)
   const initFile = files.reduce((prev, value) => {
     return prev.length > value.length ? value : prev
   })
