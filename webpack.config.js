@@ -20,6 +20,7 @@ function entries () {
 }
 
 const config = {
+  mode: process.env.NODE_ENV,
   context: paths.docroot,
   entry: entries(),
   output: {
@@ -41,20 +42,12 @@ const config = {
       }
     ]
   },
-  plugins: plugins.concat([
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_console: true
-      }
-    })
-  ])
+  plugins
 }
 
 if (process.env.NODE_ENV === 'development') {
   config.watch = true
   config.cache = true
-  config.devtool = 'source-map'
   config.plugins = plugins.concat([
     new webpack.LoaderOptionsPlugin({
       debug: true
