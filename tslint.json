@@ -6,7 +6,8 @@
   "jsRules": {},
   "rules": {
     "no-unused-variable": true,
-    "no-unused-expression": true
+    "no-unused-expression": true,
+    "one-variable-per-declaration": [true, "ignore-for-loop"]
   },
   "rulesDirectory": []
 }
