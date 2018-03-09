@@ -6,12 +6,12 @@ const imageminPngquant = require('imagemin-pngquant')
 const imageminSvgo = require('imagemin-svgo')
 
 const paths = require('./paths')
-const isImage = require('./util').isImage
-
 const config = require('../config').imagemin
+const imageExt = '*.{jpg,jpeg,gif,png,svg}'
 
 const compressImage = filename => {
-  const distPath = path.resolve(paths.dist, path.relative(paths.docroot, path.dirname(filename)))
+  const relPath = path.relative(paths.docroot, path.dirname(filename))
+  const distPath = path.resolve(paths.dist, relPath)
 
   imagemin([filename], distPath, {
     plugins: [
@@ -28,12 +28,14 @@ const compressImage = filename => {
 exports.compressImage = compressImage
 
 const exec = () => {
-  const files = glob.sync(`${paths.docroot}/**/*.{jpg,jpeg,gif,png,svg}`, {
+  const files = glob.sync(`${paths.docroot}/**/${imageExt}`, {
     nodir: true
-  }).filter(file => isImage.test(file))
+  })
+    .map(filename => path.dirname(filename))
+    .filter((dirname, index, filesArr) => filesArr.indexOf(dirname) === index)
 
   files.forEach(file => {
-    compressImage(file)
+    compressImage(path.resolve(file, imageExt))
   })
 }
 exports.exec = exec
