@@ -32,13 +32,18 @@ const config = {
     alias: {
       '@': `${paths.src}/modules/ts`
     },
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts', '.vue']
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         loader: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
         exclude: /node_modules/
       }
     ]

@@ -1,6 +1,6 @@
 {
   "src": "src",
-  "dist": "dist",
+  "dist": "docs",
   "docroot": "src/docroot",
   "browsers": [
     "> 1%",
@@ -27,11 +27,11 @@
   },
   "browsersync": {
     "server": {
-      "baseDir": "dist",
+      "baseDir": "docs",
       "directory": true
     },
     "startPath": "/index.html",
-    "files": "dist",
+    "files": "docs",
     "ghostMode": false,
     "logLevel": "debug",
     "reloadDebounce": 500,

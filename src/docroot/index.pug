@@ -8,8 +8,8 @@ extends /layouts/default
 //-
 append variables
   -
-    const TITLE       = 'AWESOME TITLE'
-    const DESCRIPTION = 'AWESOME DESCRIPTION'
+    const TITLE       = 'voice chat'
+    const DESCRIPTION = 'voice chat'
 
 //- ------------------------------------
 //- style this page
@@ -23,14 +23,11 @@ block style
 //-
 block scripts
   //- example
-  script(src='js/index.js')
+  script(src='js/index.js' defer)
 
 
 //- ------------------------------------
 //- content this page
 //-
 block content
-  h1
-    = domain
-    br
-    = URL
+  #app
