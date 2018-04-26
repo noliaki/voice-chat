@@ -15,12 +15,22 @@ html(lang="ja")
   //- begin body
   //-
   body
-    //- include global header
-    include /global-header/index
     main
       block content
-    //- include global footer
-    include /global-footer/index
 
     //- script
+    .
+      <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+      <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyB_NJ8dSMePvALJv1HxPlIwWWmlO5-8eG0",
+          authDomain: "voice-chat-23df5.firebaseapp.com",
+          databaseURL: "https://voice-chat-23df5.firebaseio.com",
+          projectId: "voice-chat-23df5",
+          storageBucket: "voice-chat-23df5.appspot.com",
+          messagingSenderId: "741090121721"
+        };
+        firebase.initializeApp(config);
+      </script>
     block scripts

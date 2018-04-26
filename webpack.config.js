@@ -2,11 +2,14 @@ const webpack = require('webpack')
 const path = require('path')
 const glob = require('glob')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 const plugins = [
+  new VueLoaderPlugin(),
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   })
 ]
+
 const paths = require('./scripts/paths')
 
 function entries () {
@@ -45,6 +48,18 @@ const config = {
         test: /\.vue$/,
         loader: 'vue-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-plain-loader'
+      },
+      {
+        test: /\.stylus$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'stylus-loader'
+        ]
       }
     ]
   },
