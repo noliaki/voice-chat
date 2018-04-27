@@ -1,35 +1,28 @@
 <template lang="pug">
   #app
-    div
-      button.login(type="button", @click.prevent="loginWithTwitter")
-        i.fab.fa-twitter
-        | twitterでログイン
-    div(v-show="userDisplayName")
-      div
-        input(v-model="roomName")
-        button(type="button" @click.prevent="makeRoom") make room
-      div
-        select(name="roomKey" v-model="roomKey")
-          option(disabled, value="") select room
-          option(v-for="room in rooms" :value="room.key") {{ room.name }}
-      div(v-show="roomKey")
-        textarea(v-model="message", @keyup.ctrl.enter="submit", @keyup.meta.enter="submit")
-        button(type="button" @click.prevent="toggleRecognization")
-          i.fas.fa-microphone(:class="{'is-active': isRecognizing}")
-        ul
-          li(v-for="item in messages") {{ item.name }} | {{ item.message }}
+    header
+      room(:make-room="makeRoom", :rooms="rooms", :roomKey="roomKey", :on-change-room-key="onChangeRoomKey")
+      twitter-btn(:login-with-twitter="loginWithTwitter", :user-display-name="userDisplayName")
+    section
+      message-field(:messages="messages")
+    footer(v-show="roomKey")
+      inputField(
+        :message="message",
+        :is-recognizing="isRecognizing",
+        :toggle-recognization="toggleRecognization",
+        :push-message="pushMessage",
+        :valid-voice-chat="validVoiceChat"
+      )
 </template>
 
 <script>
+import twitterBtn from './twitter-btn'
+import inputField from './input/input-field'
+import room from './room'
+import messageField from './message/message-field'
+
 const provider = new firebase.auth.TwitterAuthProvider()
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-
-if (!SpeechRecognition) {
-  throw alert(`
-    お使いのブラウザではご利用できません。
-    Google Chromeを使用してください。
-  `)
-}
 
 const db = firebase.database()
 const roomRef = db.ref('/rooms')
@@ -44,8 +37,15 @@ export default {
       message: '',
       messages: [],
       isRecognizing: false,
-      userDisplayName: ''
+      userDisplayName: '',
+      validVoiceChat: false
     }
+  },
+  components: {
+    twitterBtn,
+    inputField,
+    room,
+    messageField
   },
   watch: {
     roomKey (newName, oldName) {
@@ -60,6 +60,12 @@ export default {
     }
   },
   methods: {
+    onChangeMessage (message) {
+      this.message = message
+    },
+    onChangeRoomKey (roomKey) {
+      this.roomKey = roomKey
+    },
     loginWithTwitter () {
       firebase.auth().signInWithPopup(provider).then(result => {
         const user = result.user;
@@ -68,12 +74,10 @@ export default {
         alert(error.code, error.message)
       })
     },
-    makeRoom (event) {
-      roomRef.push({
-        name: this.roomName
-      }).then(res => {
-        this.roomName = ''
-      })
+    makeRoom (name) {
+      if (!name) return
+
+      roomRef.push({ name })
     },
     submit (event) {
       this.pushMessage(this.message)
@@ -82,7 +86,7 @@ export default {
     pushMessage(message) {
       roomRef.child(this.roomKey).child('/messages').push({
         message,
-        name: this.userDisplayName
+        name: this.userDisplayName || 'no name user'
       })
     },
     toggleContinuous (event) {
@@ -116,6 +120,10 @@ export default {
     }
   },
   created () {
+    if (!SpeechRecognition) return
+
+    this.validVoiceChat = true
+
     this.recognition = new SpeechRecognition()
     this.recognition.continuous = false
     this.recognition.lang = 'ja'
@@ -136,10 +144,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.login
-  border 1px solid #00aaff
-  border-radius 10px
-  background-color darken(#0af, 10%)
-  padding 3px 10px
-  color #fff
+header
+  display flex
+  justify-content center
+  align-items center
+  padding 10px 0
+  height 51px
+  border-bottom 1px solid #f0f0f0
 </style>
